@@ -16,6 +16,6 @@ class InMemoryFleetRepository implements FleetRepositoryInterface
 
     public function hasFooVehicleIntoFleet(string $vehicleRegistrationNumber, string $userId): bool
     {
-
+        return true;
     }
 }
