@@ -6,6 +6,7 @@ namespace Tests;
 
 use App\fleet\app\RegisterVehicleCommand;
 use App\fleet\app\RegisterVehicleCommandHandler;
+use App\fleet\app\RegisterVehicleCommandResponse;
 use App\fleet\infra\InMemoryFleetRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -33,7 +34,7 @@ class RegisterVehicleCommandHandlerTest extends TestCase
         /**
          * act
          */
-        $registerVehicle = new RegisterVehicleCommandHandler($fleetRepository);
+        $registerVehicle = new RegisterVehicleCommandHandler($fleetRepository, new RegisterVehicleCommandResponse());
         $registerVehicle(
             new RegisterVehicleCommand($myUserId, $fooVehicleRegistrationNumber)
         );

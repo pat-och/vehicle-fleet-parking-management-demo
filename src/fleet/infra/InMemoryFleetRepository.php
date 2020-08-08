@@ -7,6 +7,7 @@ namespace App\fleet\infra;
 
 
 use App\fleet\domain\Fleet;
+use App\fleet\domain\Vehicle;
 
 class InMemoryFleetRepository implements FleetRepositoryInterface
 {
@@ -42,6 +43,13 @@ class InMemoryFleetRepository implements FleetRepositoryInterface
         }
 
         return $this->fleets[$userId];
+    }
+
+    public function addVehicleToFleet(string $vehicleRegistrationNumber, string $userId)
+    {
+        /** @var Fleet $fleet */
+        $fleet = $this->fleets[$userId];
+        $fleet->registerVehicle($vehicleRegistrationNumber);
     }
 
 
