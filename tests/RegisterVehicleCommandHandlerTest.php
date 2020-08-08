@@ -46,4 +46,42 @@ class RegisterVehicleCommandHandlerTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function iCantRegisterTwiceFooVehicleInToMyFleet()
+    {
+        /**
+         * arrange
+         */
+
+        // given i
+        $myUserId = 'abc';
+
+        // given i have a fleet
+        $fleetRepository = new InMemoryFleetRepository();
+        $fleetRepository->addFleet($myUserId);
+
+        // given a registered vehicle
+        $fooVehicleRegistrationNumber = 'foo';
+        $fleetRepository->addVehicleToFleet($fooVehicleRegistrationNumber, $myUserId);
+
+        /**
+         * act
+         */
+        $registerVehicleCommandResponse = new RegisterVehicleCommandResponse();
+        $registerVehicle = new RegisterVehicleCommandHandler($fleetRepository, $registerVehicleCommandResponse);
+        $registerVehicle(
+            new RegisterVehicleCommand($myUserId, $fooVehicleRegistrationNumber)
+        );
+
+        /**
+         * assert
+         */
+        $this->assertEquals(
+            'this vehicle has already been registered into your fleet',
+            $registerVehicleCommandResponse->getError()
+        );
+    }
+
 }
