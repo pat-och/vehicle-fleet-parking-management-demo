@@ -85,4 +85,45 @@ class RegisterVehicleCommandHandlerTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function sameVehicleCanBelongToMoreThanOneFleet()
+    {
+        /**
+         * arrange
+         */
+
+        // given i
+        $myUserId = 'abc';
+
+        // given i have a fleet
+        $fleetRepository = new InMemoryFleetRepository();
+        $fleetRepository->addFleet($myUserId);
+
+        // given the fleet of another user
+        $anotherUserId = 'def';
+        $fleetRepository->addFleet($anotherUserId);
+
+
+        // given a registered vehicle into another user's fleet
+        $fooVehicleRegistrationNumber = 'foo';
+        $fleetRepository->addVehicleToFleet($fooVehicleRegistrationNumber, $anotherUserId);
+
+        /**
+         * act
+         */
+        $registerVehicle = new RegisterVehicleCommandHandler($fleetRepository, new RegisterVehicleCommandResponse());
+        $registerVehicle(
+            new RegisterVehicleCommand($myUserId, $fooVehicleRegistrationNumber)
+        );
+
+        /**
+         * assert
+         */
+        $this->assertTrue(
+            $fleetRepository->hasFooVehicleIntoFleet($fooVehicleRegistrationNumber, $myUserId)
+        );
+    }
+
 }
