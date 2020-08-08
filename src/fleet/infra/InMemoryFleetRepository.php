@@ -6,16 +6,43 @@ declare(strict_types=1);
 namespace App\fleet\infra;
 
 
+use App\fleet\domain\Fleet;
+
 class InMemoryFleetRepository implements FleetRepositoryInterface
 {
 
+    private array $fleets;
+
     public function addFleet(string $userId): void
     {
-        // TODO: Implement addFleet() method.
+        $this->fleets[$userId] = new Fleet($userId);
     }
 
     public function hasFooVehicleIntoFleet(string $vehicleRegistrationNumber, string $userId): bool
     {
-        return true;
+        $fleet = $this->getFleet($userId);
+
+        if (!isset($fleet)) {
+            return false;
+        }
+
+        foreach ($fleet->getVehicles() as $vehicle) {
+            if ($vehicleRegistrationNumber === $vehicle->getRegistrationNumber($vehicleRegistrationNumber)) {
+                return true;
+            }
+        }
+
+        return false;
     }
+
+    public function getFleet(string $userId): ?Fleet
+    {
+        if (!array_key_exists($userId, $this->fleets)) {
+            return null;
+        }
+
+        return $this->fleets[$userId];
+    }
+
+
 }

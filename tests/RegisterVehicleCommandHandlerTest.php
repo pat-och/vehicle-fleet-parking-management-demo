@@ -34,10 +34,9 @@ class RegisterVehicleCommandHandlerTest extends TestCase
          * act
          */
         $registerVehicle = new RegisterVehicleCommandHandler($fleetRepository);
-        $response = $registerVehicle(
+        $registerVehicle(
             new RegisterVehicleCommand($myUserId, $fooVehicleRegistrationNumber)
         );
-
 
         /**
          * assert

@@ -20,6 +20,7 @@ class RegisterVehicleCommandHandler
 
     public function __invoke(RegisterVehicleCommand $registerVehicleCommand): void
     {
-
+        $fleet = $this->fleetRepository->getFleet($registerVehicleCommand->getUserId());
+        $fleet->registerVehicle($registerVehicleCommand->getVehicleRegistrationNumber());
     }
 }
