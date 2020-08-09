@@ -55,7 +55,7 @@ class InMemoryFleetRepository implements FleetRepositoryInterface
 
     public function getfooVehicleGeolocation(string $fooVehicleRegistrationNumber, string $myUserId, Geolocation $barLocation): ?Geolocation
     {
-        return null;
+        return new Geolocation('43.300000', '5.400000');
     }
 
 
