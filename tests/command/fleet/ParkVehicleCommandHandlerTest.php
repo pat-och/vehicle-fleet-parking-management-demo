@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace Tests;
+namespace Tests\command\fleet;
 
 use App\command\fleet\app\ParkVehicleCommand;
 use App\command\fleet\app\ParkVehicleCommandHandler;
