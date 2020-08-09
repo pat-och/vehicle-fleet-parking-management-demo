@@ -26,4 +26,16 @@ class ParkVehicleCommand
     {
         return $this->userId;
     }
+
+    public function getVehicleRegistrationNumber(): string
+    {
+        return $this->vehicleRegistrationNumber;
+    }
+
+    public function getGeoLocation(): Geolocation
+    {
+        return $this->geolocation;
+    }
+
+
 }

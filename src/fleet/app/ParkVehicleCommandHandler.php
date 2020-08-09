@@ -20,6 +20,8 @@ class ParkVehicleCommandHandler
 
     public function __invoke(ParkVehicleCommand $parkVehicleCommand): void
     {
-
+        $fleet = $this->fleetRepository->getFleet($parkVehicleCommand->getUserId());
+        $vehicle = $fleet->getVehicle($parkVehicleCommand->getVehicleRegistrationNumber());
+        $vehicle->addGeoLocation($parkVehicleCommand->getGeoLocation());
     }
 }

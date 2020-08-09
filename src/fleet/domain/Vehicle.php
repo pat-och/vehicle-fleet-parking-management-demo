@@ -20,4 +20,9 @@ class Vehicle
     {
         return $this->registrationNumber;
     }
+
+    public function addGeolocation(Geolocation $geolocation): void
+    {
+        $this->geolocation = $geolocation;
+    }
 }

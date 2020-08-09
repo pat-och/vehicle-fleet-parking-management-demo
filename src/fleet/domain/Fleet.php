@@ -35,4 +35,15 @@ class Fleet
 
         $this->vehicles[$registrationNumber] = $vehicle;
     }
+
+    public function getVehicle(string $registrationNumber): ?Vehicle
+    {
+        foreach ($this->vehicles as $vehicle) {
+            if ($registrationNumber === $vehicle->getRegistrationNumber()) {
+                return $vehicle;
+            }
+        }
+
+        return null;
+    }
 }
