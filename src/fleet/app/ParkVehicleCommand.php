@@ -11,14 +11,19 @@ use App\fleet\domain\Geolocation;
 class ParkVehicleCommand
 {
 
-    private string $myUserId;
-    private string $fooVehicleRegistrationNumber;
-    private Geolocation $barLocation;
+    private string $userId;
+    private string $vehicleRegistrationNumber;
+    private Geolocation $geolocation;
 
-    public function __construct(string $myUserId, string $fooVehicleRegistrationNumber, Geolocation $barLocation)
+    public function __construct(string $userId, string $vehicleRegistrationNumber, Geolocation $geolocation)
     {
-        $this->myUserId = $myUserId;
-        $this->fooVehicleRegistrationNumber = $fooVehicleRegistrationNumber;
-        $this->barLocation = $barLocation;
+        $this->userId = $userId;
+        $this->vehicleRegistrationNumber = $vehicleRegistrationNumber;
+        $this->geolocation = $geolocation;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 }
