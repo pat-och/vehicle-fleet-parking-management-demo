@@ -78,7 +78,11 @@ class RegisterVehicleCommandHandlerTest extends TestCase
         $this->givenRegisteredFooVehicleIntoAnotherUserFleet();
 
 
-        $registerVehicle = new RegisterVehicleCommandHandler($this->fleetRepository, new RegisterVehicleCommandResponse());
+        $registerVehicle = new RegisterVehicleCommandHandler(
+            $this->fleetRepository,
+            new RegisterVehicleCommandResponse()
+        );
+
         $registerVehicle(
             new RegisterVehicleCommand($this->myUserId, $this->registeredFooVehicleRegistrationNumber)
         );
