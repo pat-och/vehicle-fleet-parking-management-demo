@@ -48,7 +48,7 @@ class InMemoryFleetRepository implements FleetRepositoryInterface
 
     public function addVehicleToFleet(string $vehicleRegistrationNumber, string $userId, Geolocation $geolocation = null): void
     {
-        $fleet = $this->fleets[$userId];
+        $fleet = $this->getFleet($userId);
         $fleet->registerVehicle($vehicleRegistrationNumber, $geolocation);
     }
 
