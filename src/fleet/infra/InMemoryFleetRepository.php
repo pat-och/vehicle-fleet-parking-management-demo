@@ -7,6 +7,7 @@ namespace App\fleet\infra;
 
 
 use App\fleet\domain\Fleet;
+use App\fleet\domain\Geolocation;
 use App\fleet\domain\Vehicle;
 
 class InMemoryFleetRepository implements FleetRepositoryInterface
@@ -45,11 +46,15 @@ class InMemoryFleetRepository implements FleetRepositoryInterface
         return $this->fleets[$userId];
     }
 
-    public function addVehicleToFleet(string $vehicleRegistrationNumber, string $userId)
+    public function addVehicleToFleet(string $vehicleRegistrationNumber, string $userId, Geolocation $geolocation = null): void
     {
-        /** @var Fleet $fleet */
         $fleet = $this->fleets[$userId];
-        $fleet->registerVehicle($vehicleRegistrationNumber);
+        $fleet->registerVehicle($vehicleRegistrationNumber, $geolocation);
+    }
+
+    public function getfooVehicleGeolocation(string $fooVehicleRegistrationNumber, string $myUserId, Geolocation $barLocation): ?Geolocation
+    {
+        return new Geolocation('43.300000', '5.400000');
     }
 
 
