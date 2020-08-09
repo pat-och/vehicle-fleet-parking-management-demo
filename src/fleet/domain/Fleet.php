@@ -25,13 +25,15 @@ class Fleet
         return $this->vehicles;
     }
 
-    public function registerVehicle(string $registrationNumber): void
+    public function registerVehicle(string $registrationNumber, Geolocation $geolocation = null): void
     {
-        $vehicle = new Vehicle($registrationNumber);
+        $vehicle = new Vehicle($registrationNumber, $geolocation);
 
         if (array_key_exists($registrationNumber, $this->vehicles)) {
             throw new Exception('this vehicle has already been registered into your fleet');
         }
+
+
 
         $this->vehicles[$registrationNumber] = $vehicle;
     }

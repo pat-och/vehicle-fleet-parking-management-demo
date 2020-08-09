@@ -7,21 +7,30 @@ namespace App\fleet\app;
 
 
 use App\fleet\infra\FleetRepositoryInterface;
+use Exception;
 
 class ParkVehicleCommandHandler
 {
 
     private FleetRepositoryInterface $fleetRepository;
+    private ParkVehicleCommandResponse $parkVehicleCommandResponse;
 
-    public function __construct(FleetRepositoryInterface $fleetRepository)
+    public function __construct(FleetRepositoryInterface $fleetRepository,
+                                ParkVehicleCommandResponse $parkVehicleCommandResponse)
     {
         $this->fleetRepository = $fleetRepository;
+        $this->parkVehicleCommandResponse = $parkVehicleCommandResponse;
     }
 
     public function __invoke(ParkVehicleCommand $parkVehicleCommand): void
     {
         $fleet = $this->fleetRepository->getFleet($parkVehicleCommand->getUserId());
         $vehicle = $fleet->getVehicle($parkVehicleCommand->getVehicleRegistrationNumber());
-        $vehicle->addGeoLocation($parkVehicleCommand->getGeoLocation());
+
+        try {
+            $vehicle->setGeolocation($parkVehicleCommand->getGeoLocation());
+        } catch (Exception $e) {
+            $this->parkVehicleCommandResponse->setError($e->getMessage());
+        }
     }
 }

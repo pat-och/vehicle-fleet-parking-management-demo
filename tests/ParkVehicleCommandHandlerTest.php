@@ -35,14 +35,14 @@ class ParkVehicleCommandHandlerTest extends TestCase
         $fooVehicleRegistrationNumber = 'foo';
         $fleetRepository->addVehicleToFleet($fooVehicleRegistrationNumber, $myUserId);
 
-        // given locatioon
+        // given location
         $barLocation = new Geolocation('43.300000', '5.400000');
 
         /**
          * act
          */
         $parkVehicleCommandResponse = new ParkVehicleCommandResponse();
-        $parkVehicle = new ParkVehicleCommandHandler($fleetRepository);
+        $parkVehicle = new ParkVehicleCommandHandler($fleetRepository, new ParkVehicleCommandResponse());
         $parkVehicle(
             new ParkVehicleCommand($myUserId, $fooVehicleRegistrationNumber, $barLocation)
         );
@@ -75,8 +75,6 @@ class ParkVehicleCommandHandlerTest extends TestCase
         // given a registered vehicle
         $fooVehicleRegistrationNumber = 'foo';
         $fleetRepository->addVehicleToFleet($fooVehicleRegistrationNumber, $myUserId, $barLocation);
-
-//        print_r($fleetRepository);die;
 
         /**
          * act
