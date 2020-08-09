@@ -18,7 +18,7 @@ class ParkVehicleCommandHandlerTest extends TestCase
     /**
      * @test
      */
-    public function successfullyParkFooVehicleToBarLocation()
+    public function successfullyParkFooVehicleAtBarLocation()
     {
         /**
          * arrange
