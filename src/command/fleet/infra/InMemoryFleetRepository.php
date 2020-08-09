@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 
-namespace App\fleet\infra;
+namespace App\command\fleet\infra;
 
 
-use App\fleet\domain\Fleet;
-use App\fleet\domain\Geolocation;
-use App\fleet\domain\Vehicle;
+use App\command\fleet\domain\Fleet;
+use App\command\fleet\domain\Geolocation;
+use App\command\fleet\domain\Vehicle;
 
 class InMemoryFleetRepository implements FleetRepositoryInterface
 {

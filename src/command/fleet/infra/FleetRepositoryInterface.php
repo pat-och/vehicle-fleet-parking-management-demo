@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 
-namespace App\fleet\infra;
+namespace App\command\fleet\infra;
 
 
-use App\fleet\domain\Fleet;
+use App\command\fleet\domain\Fleet;
 
 interface FleetRepositoryInterface
 {

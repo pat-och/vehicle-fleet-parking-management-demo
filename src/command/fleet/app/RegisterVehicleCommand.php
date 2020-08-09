@@ -3,23 +3,19 @@
 declare(strict_types=1);
 
 
-namespace App\fleet\app;
+namespace App\command\fleet\app;
 
 
-use App\fleet\domain\Geolocation;
-
-class ParkVehicleCommand
+class RegisterVehicleCommand
 {
 
     private string $userId;
     private string $vehicleRegistrationNumber;
-    private Geolocation $geolocation;
 
-    public function __construct(string $userId, string $vehicleRegistrationNumber, Geolocation $geolocation)
+    public function __construct(string $userId, string $vehicleRegistrationNumber)
     {
         $this->userId = $userId;
         $this->vehicleRegistrationNumber = $vehicleRegistrationNumber;
-        $this->geolocation = $geolocation;
     }
 
     public function getUserId(): string
@@ -31,11 +27,4 @@ class ParkVehicleCommand
     {
         return $this->vehicleRegistrationNumber;
     }
-
-    public function getGeoLocation(): Geolocation
-    {
-        return $this->geolocation;
-    }
-
-
 }

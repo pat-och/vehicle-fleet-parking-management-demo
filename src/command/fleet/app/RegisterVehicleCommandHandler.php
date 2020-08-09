@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 
-namespace App\fleet\app;
+namespace App\command\fleet\app;
 
 
-use App\fleet\infra\FleetRepositoryInterface;
+use App\command\fleet\infra\FleetRepositoryInterface;
 use Exception;
 
 class RegisterVehicleCommandHandler

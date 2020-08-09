@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace App\fleet\domain;
+namespace App\command\fleet\domain;
 
 
 use Exception;

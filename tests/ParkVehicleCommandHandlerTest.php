@@ -5,11 +5,11 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\fleet\app\ParkVehicleCommand;
-use App\fleet\app\ParkVehicleCommandHandler;
-use App\fleet\app\ParkVehicleCommandResponse;
-use App\fleet\domain\Geolocation;
-use App\fleet\infra\InMemoryFleetRepository;
+use App\command\fleet\app\ParkVehicleCommand;
+use App\command\fleet\app\ParkVehicleCommandHandler;
+use App\command\fleet\app\ParkVehicleCommandResponse;
+use App\command\fleet\domain\Geolocation;
+use App\command\fleet\infra\InMemoryFleetRepository;
 use PHPUnit\Framework\TestCase;
 
 class ParkVehicleCommandHandlerTest extends TestCase

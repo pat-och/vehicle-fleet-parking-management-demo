@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\fleet\app\RegisterVehicleCommand;
-use App\fleet\app\RegisterVehicleCommandHandler;
-use App\fleet\app\RegisterVehicleCommandResponse;
-use App\fleet\infra\InMemoryFleetRepository;
+use App\command\fleet\app\RegisterVehicleCommand;
+use App\command\fleet\app\RegisterVehicleCommandHandler;
+use App\command\fleet\app\RegisterVehicleCommandResponse;
+use App\command\fleet\infra\InMemoryFleetRepository;
 use PHPUnit\Framework\TestCase;
 
 class RegisterVehicleCommandHandlerTest extends TestCase
