@@ -12,38 +12,38 @@ use PHPUnit\Framework\TestCase;
 
 class RegisterVehicleCommandHandlerTest extends TestCase
 {
+    private string $myUserId;
+    private InMemoryFleetRepository $fleetRepository;
+    private string $nonRegisteredFooVehicleRegistrationNumber;
+    private string $registeredFooVehicleRegistrationNumber;
+    private string $anotherUserId;
+
+    protected function setUp(): void
+    {
+        $this->fleetRepository = new InMemoryFleetRepository();
+    }
+
     /**
      * @test
      */
     public function iCanRegisterFooVehicleInToMyFleet()
     {
-        /**
-         * arrange
-         */
+        $this->givenImRegisteredUser();
+        $this->givenIHaveMyFleet();
+        $this->givenNonRegisteredFooVehicleRegistrationNumber();
 
-        // given i
-        $myUserId = 'abc';
-
-        // given i have a fleet
-        $fleetRepository = new InMemoryFleetRepository();
-        $fleetRepository->addFleet($myUserId);
-
-        // given a vehicle
-        $fooVehicleRegistrationNumber = 'foo';
-
-        /**
-         * act
-         */
-        $registerVehicle = new RegisterVehicleCommandHandler($fleetRepository, new RegisterVehicleCommandResponse());
-        $registerVehicle(
-            new RegisterVehicleCommand($myUserId, $fooVehicleRegistrationNumber)
+        $registerVehicle = new RegisterVehicleCommandHandler(
+            $this->fleetRepository,
+            new RegisterVehicleCommandResponse()
         );
 
-        /**
-         * assert
-         */
+        $registerVehicle(
+            new RegisterVehicleCommand($this->myUserId, $this->nonRegisteredFooVehicleRegistrationNumber)
+        );
+
         $this->assertTrue(
-            $fleetRepository->hasFooVehicleIntoFleet($fooVehicleRegistrationNumber, $myUserId)
+            $this->fleetRepository->hasFooVehicleIntoFleet($this->nonRegisteredFooVehicleRegistrationNumber,
+                $this->myUserId)
         );
     }
 
@@ -52,33 +52,16 @@ class RegisterVehicleCommandHandlerTest extends TestCase
      */
     public function iCantRegisterTwiceFooVehicleInToMyFleet()
     {
-        /**
-         * arrange
-         */
+        $this->givenImRegisteredUser();
+        $this->givenIHaveMyFleet();
+        $this->givenRegisteredFooVehicleRegistrationNumber();
 
-        // given i
-        $myUserId = 'abc';
-
-        // given i have a fleet
-        $fleetRepository = new InMemoryFleetRepository();
-        $fleetRepository->addFleet($myUserId);
-
-        // given a registered vehicle
-        $fooVehicleRegistrationNumber = 'foo';
-        $fleetRepository->addVehicleToFleet($fooVehicleRegistrationNumber, $myUserId);
-
-        /**
-         * act
-         */
         $registerVehicleCommandResponse = new RegisterVehicleCommandResponse();
-        $registerVehicle = new RegisterVehicleCommandHandler($fleetRepository, $registerVehicleCommandResponse);
+        $registerVehicle = new RegisterVehicleCommandHandler($this->fleetRepository, $registerVehicleCommandResponse);
         $registerVehicle(
-            new RegisterVehicleCommand($myUserId, $fooVehicleRegistrationNumber)
+            new RegisterVehicleCommand($this->myUserId, $this->registeredFooVehicleRegistrationNumber)
         );
 
-        /**
-         * assert
-         */
         $this->assertEquals(
             'this vehicle has already been registered into your fleet',
             $registerVehicleCommandResponse->getError()
@@ -90,40 +73,58 @@ class RegisterVehicleCommandHandlerTest extends TestCase
      */
     public function sameVehicleCanBelongToMoreThanOneFleet()
     {
-        /**
-         * arrange
-         */
-
-        // given i
-        $myUserId = 'abc';
-
-        // given i have a fleet
-        $fleetRepository = new InMemoryFleetRepository();
-        $fleetRepository->addFleet($myUserId);
-
-        // given the fleet of another user
-        $anotherUserId = 'def';
-        $fleetRepository->addFleet($anotherUserId);
+        $this->givenImRegisteredUser();
+        $this->givenIHaveMyFleet();
+        $this->givenRegisteredFooVehicleIntoAnotherUserFleet();
 
 
-        // given a registered vehicle into another user's fleet
-        $fooVehicleRegistrationNumber = 'foo';
-        $fleetRepository->addVehicleToFleet($fooVehicleRegistrationNumber, $anotherUserId);
-
-        /**
-         * act
-         */
-        $registerVehicle = new RegisterVehicleCommandHandler($fleetRepository, new RegisterVehicleCommandResponse());
+        $registerVehicle = new RegisterVehicleCommandHandler($this->fleetRepository, new RegisterVehicleCommandResponse());
         $registerVehicle(
-            new RegisterVehicleCommand($myUserId, $fooVehicleRegistrationNumber)
+            new RegisterVehicleCommand($this->myUserId, $this->registeredFooVehicleRegistrationNumber)
         );
 
-        /**
-         * assert
-         */
         $this->assertTrue(
-            $fleetRepository->hasFooVehicleIntoFleet($fooVehicleRegistrationNumber, $myUserId)
+            $this->fleetRepository->hasFooVehicleIntoFleet(
+                $this->registeredFooVehicleRegistrationNumber,
+                $this->myUserId
+            )
         );
+    }
+
+    private function givenImRegisteredUser()
+    {
+        $this->myUserId = 'abc';
+    }
+    private function givenIHaveMyFleet()
+    {
+        $this->fleetRepository = new InMemoryFleetRepository();
+        $this->fleetRepository->addFleet($this->myUserId);
+    }
+
+    private function givenNonRegisteredFooVehicleRegistrationNumber()
+    {
+        $this->nonRegisteredFooVehicleRegistrationNumber = 'foo';
+    }
+
+    private function givenRegisteredFooVehicleRegistrationNumber()
+    {
+        $this->registeredFooVehicleRegistrationNumber = 'foo';
+        $this->fleetRepository->addVehicleToFleet($this->registeredFooVehicleRegistrationNumber, $this->myUserId);
+    }
+
+    private function givenTheFleetOfAnotherUser()
+    {
+        $this->anotherUserId = 'def';
+        $this->fleetRepository->addFleet($this->anotherUserId);
+    }
+
+    private function givenRegisteredFooVehicleIntoAnotherUserFleet()
+    {
+        $this->givenTheFleetOfAnotherUser();
+
+        $this->registeredFooVehicleRegistrationNumber = 'foo';
+        $this->anotherUserId = 'def';
+        $this->fleetRepository->addVehicleToFleet($this->registeredFooVehicleRegistrationNumber, $this->anotherUserId);
     }
 
 }
